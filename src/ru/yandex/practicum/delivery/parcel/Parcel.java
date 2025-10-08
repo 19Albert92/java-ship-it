@@ -39,4 +39,10 @@ public abstract class Parcel {
     }
 
     public abstract int calculateDeliveryCost();
+
+   @Override
+    public String toString() {
+        return String.format("description='%s', weight='%d', deliveryAddress='%s', sendDay='%d'",
+                description, weight, deliveryAddress, sendDay);
+    }
 }

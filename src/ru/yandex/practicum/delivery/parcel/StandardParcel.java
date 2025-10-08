@@ -9,4 +9,9 @@ public class StandardParcel extends Parcel {
     public int calculateDeliveryCost() {
         return ParcelType.STANDARD.getParcelAmount() * super.weight;
     }
+
+    @Override
+    public String toString() {
+        return String.format("StandardParcel{%s}", super.toString());
+    }
 }

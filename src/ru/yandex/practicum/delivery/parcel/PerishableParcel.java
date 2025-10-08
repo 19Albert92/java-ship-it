@@ -2,7 +2,7 @@ package ru.yandex.practicum.delivery.parcel;
 
 public class PerishableParcel extends Parcel {
 
-    private int timeToLive;
+    private final int timeToLive;
 
     public PerishableParcel(String description, int weight, String deliveryAddress, int sendDay, int timeToLive) {
         super(description, weight, deliveryAddress, sendDay);
@@ -16,5 +16,10 @@ public class PerishableParcel extends Parcel {
     @Override
     public int calculateDeliveryCost() {
         return ParcelType.PERISHABLE.getParcelAmount() * super.weight;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("PerishableParcel{%s, timeToLive='%d'}", super.toString(), timeToLive);
     }
 }
