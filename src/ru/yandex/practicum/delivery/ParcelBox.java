@@ -18,7 +18,7 @@ public class ParcelBox <T extends Parcel> {
         if (hasFreeSpace(parcel.getWeight())) {
             parcels.add(parcel);
         } else {
-            System.out.println("Посылка превышает допустимыый вес");
+            System.out.println("Посылка превышает допустимый вес");
         }
 
         return parcel;
