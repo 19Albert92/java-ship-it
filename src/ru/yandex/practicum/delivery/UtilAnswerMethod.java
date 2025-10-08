@@ -27,6 +27,6 @@ public class UtilAnswerMethod {
     }
 
     public String createQuestion(String questionText) {
-        return this.createQuestion(questionText, "Не должно быть пустых значений");
+        return this.createQuestion(questionText, "Не должно быть пустых значений!\n");
     }
 }

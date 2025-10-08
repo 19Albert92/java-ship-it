@@ -12,7 +12,8 @@ import java.util.Scanner;
 public class DeliveryApp {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static List<Parcel> allParcels = new ArrayList<>();
+    private static final List<Parcel> allParcels = new ArrayList<>();
+    private static final List<Trackable> trackedParcels = new ArrayList<>();
     private static final UtilAnswerMethod answerMethods = new  UtilAnswerMethod(scanner);
 
     public static void main(String[] args) {
@@ -31,6 +32,9 @@ public class DeliveryApp {
                 case 3:
                     calculateCosts();
                     break;
+                case 4:
+                    changeReportStatus();
+                    break;
                 case 0:
                     running = false;
                     break;
@@ -45,6 +49,7 @@ public class DeliveryApp {
         System.out.println("1 — Добавить посылку");
         System.out.println("2 — Отправить все посылки");
         System.out.println("3 — Посчитать стоимость доставки");
+        System.out.println("4 — Мониторинг доставки");
         System.out.println("0 — Завершить");
     }
 
@@ -74,25 +79,38 @@ public class DeliveryApp {
 
     private static void addParcel() {
         int command = Integer.parseInt(answerMethods.createQuestion("""
-                Какой тип посылки вы бы хотели отправить?
-                1 — Стандартная посылка
-                2 — Хрупкая посылка
-                3 — Скоропортящаяся посылка
+                Выберите тип доставки:
+                    1 — Стандартная посылка
+                    2 — Хрупкая посылка
+                    3 — Скоропортящаяся посылка
                 """));
 
         Parcel parcel = createParcel(command);
 
         if (parcel != null) {
             allParcels.add(parcel);
+
+            if (parcel instanceof FragileParcel fragileParcel) {
+                trackedParcels.add(fragileParcel);
+            }
+        }
+    }
+
+    private static void changeReportStatus() {
+
+        if (trackedParcels.isEmpty()) {
+            System.out.println("\nУ вас пока нет хрупких посылок!\n");
+            return;
+        }
+
+        String newDeliveryAddress = answerMethods.createQuestion("Какое новое мостоположения посылки?");
+
+        for (Trackable parcel : trackedParcels) {
+            parcel.reportStatus(newDeliveryAddress);
         }
     }
 
     private static void sendParcels() {
-
-        if (allParcels.isEmpty()) {
-            System.out.println("У вас пока нет посылок!");
-            return;
-        }
 
         allParcels.forEach(parcel -> {
             parcel.packageItem();
@@ -103,11 +121,6 @@ public class DeliveryApp {
     private static void calculateCosts() {
 
         int allAmount = 0;
-
-        if (allParcels.isEmpty()) {
-            System.out.println("У вас пока нет посылок!");
-            return;
-        }
 
         for (Parcel parcel : allParcels) {
             allAmount += parcel.calculateDeliveryCost();
