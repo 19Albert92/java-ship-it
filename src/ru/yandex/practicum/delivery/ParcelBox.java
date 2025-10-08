@@ -8,19 +8,15 @@ public class ParcelBox <T extends Parcel> {
 
     private final int maxWeight;
 
-    private final ArrayList<T> parsels = new ArrayList<>();
+    private final ArrayList<T> parcels = new ArrayList<>();
 
     public ParcelBox(int maxWeight) {
         this.maxWeight = maxWeight;
     }
 
-    public int getMaxWeight() {
-        return maxWeight;
-    }
-
     public T addParcel(T parcel) {
         if (hasFreeSpace(parcel.getWeight())) {
-            parsels.add(parcel);
+            parcels.add(parcel);
         } else {
             System.out.println("Посылка превышает допустимыый вес");
         }
@@ -29,16 +25,27 @@ public class ParcelBox <T extends Parcel> {
     }
 
     public ArrayList<T> getAllParcels() {
-        return parsels;
+        return parcels;
     }
 
     private boolean hasFreeSpace(int weight) {
         int boxWight = 0;
 
-        for (T parcel : parsels) {
+        for (T parcel : parcels) {
             boxWight += parcel.getWeight();
         }
 
         return (boxWight + weight) <= maxWeight;
+    }
+
+    public void printParcelsFromTheBox() {
+        if (parcels.isEmpty()) {
+            System.out.println("В выбранном боксе нет посылок");
+            return;
+        }
+
+        for (T parcel : parcels) {
+            System.out.printf("%s \n", parcel);
+        }
     }
 }

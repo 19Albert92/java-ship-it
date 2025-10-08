@@ -149,22 +149,10 @@ public class DeliveryApp {
                 """));
 
         switch (command) {
-            case 1 -> printParcelsFromTheBox(standardParcels.getAllParcels());
-            case 2 -> printParcelsFromTheBox(fragileParcels.getAllParcels());
-            case 3 -> printParcelsFromTheBox(perishableParcels.getAllParcels());
+            case 1 -> standardParcels.printParcelsFromTheBox();
+            case 2 -> fragileParcels.printParcelsFromTheBox();
+            case 3 -> perishableParcels.printParcelsFromTheBox();
             default -> System.out.println("Такого типа нет");
-        }
-    }
-
-    private static <T extends Parcel> void printParcelsFromTheBox(ArrayList<T> parcels) {
-
-        if (parcels.isEmpty()) {
-            System.out.println("В выбранном боксе нет посылок");
-            return;
-        }
-
-        for (T parcel : parcels) {
-            System.out.printf("%s \n", parcel);
         }
     }
 }
